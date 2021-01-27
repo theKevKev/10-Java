@@ -1,5 +1,5 @@
 public class ProgrammingProject2_1 {
-    public static final int Height = 37;
+    public static final int Height = 7;
     public static void main(String[] args){
         for(int line = 1; line <= Height; line++){
             asterisk(line);
