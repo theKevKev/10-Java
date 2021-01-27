@@ -1,5 +1,9 @@
 public class Homework7 {
 
+    //Question 9 Variables: 
+
+    public static final int SIZE = 40;
+
     //Question 11 Variables: 
     public static final int Base = 8;
     public static final int NumberOfRepetitions = 7;
@@ -75,17 +79,17 @@ public class Homework7 {
     //Question 9 Methods:
 
     public static void FortyDash() {
-        for(int i = 1; i <= 40; i++){
+        for(int i = 1; i <= SIZE; i++){
             System.out.print("-");
         }
     }
     public static void Line2(){
-        for(int i = 1; i <= 10; i++){
+        for(int i = 1; i <= SIZE/4; i++){
             System.out.print("_-^-");
         }
     }
     public static void DoubleCount(){
-        for(int i = 1; i <= 20; i++){
+        for(int i = 1; i <= SIZE/2; i++){
             System.out.print(i%10);
             System.out.print(i%10);
         }
