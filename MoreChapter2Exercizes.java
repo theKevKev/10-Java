@@ -1,4 +1,4 @@
-public class Homework8 {
+public class MoreChapter2Exercizes {
     
     public static final int NumOfFibonacci = 12;
     public static final int NumOfLines = 5;

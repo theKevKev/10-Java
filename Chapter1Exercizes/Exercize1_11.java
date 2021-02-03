@@ -1,6 +1,6 @@
-package Homework5;
+package Chapter1Exercizes;
 
-public class Homework5_2 {
+public class Exercize1_11 {
     public static void main(String[] args){
         Five();
         Dice();

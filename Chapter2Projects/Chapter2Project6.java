@@ -1,3 +1,5 @@
+package Chapter2Projects;
+
 public class Chapter2Project6 {
     public static final int SIZE = 4;
     public static void main(String[] args){

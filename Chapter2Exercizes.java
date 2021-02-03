@@ -1,4 +1,4 @@
-public class Homework7 {
+public class Chapter2Exercizes {
 
     //Question 9 Variables: 
 

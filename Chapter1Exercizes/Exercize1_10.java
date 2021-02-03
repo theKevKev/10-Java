@@ -1,3 +1,5 @@
+package Chapter1Exercizes;
+
 public class Exercize1_10 {
     public static void main(String[] args){
         DoubleCone();
