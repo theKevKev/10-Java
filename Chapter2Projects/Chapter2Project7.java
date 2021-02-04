@@ -1,7 +1,7 @@
 package Chapter2Projects;
 
 public class Chapter2Project7 {
-    public static final int SIZE = 10;
+    public static final int SIZE = 8; //This program work for all SIZE ≥ 8
     public static void main(String[] args){
         for(int i = 1; i <= SIZE + 1; i++){
             System.out.print(" ");
@@ -54,7 +54,7 @@ public class Chapter2Project7 {
             for(int space = 1; space <= (3 * SIZE - 22) / 2; space++){
                 System.out.print(" ");
             }
-            if(SIZE % 2 == 1) {
+            for(int i = 1; i <= SIZE % 2; i++){ //In case SIZE is odd, we need to print an extra space after the text
                 System.out.print(" ");
             }
             System.out.print("|");
