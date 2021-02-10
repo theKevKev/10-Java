@@ -3,6 +3,7 @@ public class BaseConverter {
         int starter = 812346;
         int base = 3;
         for (int i = 0; i <= 20; i++){
+            
             System.out.println("number is " + starter);
             System.out.println(starter%base);
             starter = starter/base;
