@@ -8,8 +8,7 @@ public class Chapter5Exercise12 { //print average
         Scanner input = new Scanner(System.in);
         int num = 0, total = 0, NumOfNum = 0;
         do{
-            System.out.println();
-            System.out.print("Type a number: ");
+            System.out.print("\nType a number: ");
             num = input.nextInt();
             if(num >= 0){
                 total += num;
