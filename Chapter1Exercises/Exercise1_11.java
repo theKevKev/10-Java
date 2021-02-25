@@ -1,6 +1,6 @@
-package Chapter1Exercizes;
+package Chapter1Exercises;
 
-public class Exercize1_11 {
+public class Exercise1_11 {
     public static void main(String[] args){
         Five();
         Dice();

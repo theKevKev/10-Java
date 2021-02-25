@@ -1,6 +1,6 @@
-package Chapter1Exercizes;
+package Chapter1Exercises;
 
-public class Exercize1_10 {
+public class Exercise1_10 {
     public static void main(String[] args){
         DoubleCone();
         DoubleBox();

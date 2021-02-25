@@ -27,11 +27,14 @@ public class BaseConverter1{
                 } else if (Number - (Base - 2) * Math.pow(Base, exponent) >= 0) {
                     System.out.print(Base - 2);
                     Number = Number - (Base - 2) * (int) Math.pow(Base, exponent);
-                } else if (Number - (Base - 3) * Math.pow(Base, exponent) >= 0){ // Base > Number
+                } else if (Number - (Base - 3) * Math.pow(Base, exponent) >= 0){
                     System.out.print(Base - 3);
                     Number = Number - (Base - 3) * (int) Math.pow(Base, exponent);
+                } else if (Number - (Base - 4) * Math.pow(Base, exponent) >= 0){
+                    System.out.print(Base - 4);
+                    Number = Number - (Base - 4) * (int) Math.pow(Base, exponent);
                 } else{
-                    System.out.print("base is greater than 3");
+                    System.out.print("base is greater than 8");
                 }
             }
             System.out.println();
