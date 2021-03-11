@@ -21,7 +21,6 @@ public class Chapter4Project7 {
         }
         return product;
     }
-
 }
 /*                  1                   0 choose 0
                   1   1                 1 choose 0/1
