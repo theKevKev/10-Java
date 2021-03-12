@@ -1,3 +1,4 @@
+package Chapter4and5Projects;
 public class Chapter4Project7 {
     public static final int rows = 11;
     public static void main(String[] args){
