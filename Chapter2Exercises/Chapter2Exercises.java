@@ -1,3 +1,4 @@
+package Chapter2Exercises;
 public class Chapter2Exercises {
 
     //Question 9 Variables: 
