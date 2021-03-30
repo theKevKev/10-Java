@@ -1,3 +1,5 @@
+package Chapter5Exercises;
+
 import java.util.Scanner;
 public class Chapter5Exercise3 {
     public static void main(String[] args){
