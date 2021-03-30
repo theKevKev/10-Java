@@ -1,4 +1,4 @@
-package Chapter2Exercises;
+package Chapter2.Chapter2Exercises;
 public class MoreChapter2Exercizes {
     
     public static final int NumOfFibonacci = 12;

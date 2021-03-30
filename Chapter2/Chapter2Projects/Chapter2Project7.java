@@ -1,4 +1,4 @@
-package Chapter2Projects;
+package Chapter2.Chapter2Projects;
 
 public class Chapter2Project7 {
     public static final int SIZE = 8; //This program work for all SIZE ≥ 8

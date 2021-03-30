@@ -1,4 +1,4 @@
-package Chapter2Projects;
+package Chapter2.Chapter2Projects;
 
 public class Chapter2Project5 {
     public static final int SIZE = 3;
