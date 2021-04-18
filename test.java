@@ -1,11 +1,14 @@
+import java.util.*;
+
 public class test {
     public static void main(String[] args){
-        System.out.println(" X | X | O ");
-        System.out.println("---+---+---");
-        System.out.println(" X | 0 | X ");
-        System.out.println("---+---+---");
-        System.out.println(" X |   | O ");   
-        int Turns = 0;     
-        System.out.println(-(Turns % 2 * 2 - 1));
+        Scanner sc = new Scanner("word1 word2 word3 word4 word5");
+        while(sc.hasNext()){
+            if(sc.next().equals("name") != true){
+                System.out.println(sc.next());
+            }
+        }
+        
+        sc.close();
     }
 }

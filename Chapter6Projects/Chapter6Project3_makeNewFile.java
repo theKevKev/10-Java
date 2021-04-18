@@ -20,51 +20,65 @@ print spaces
 word by word re-print, don't forget spaces!
 */
 
-public class Chapter6Project3 {
+public class Chapter6Project3_makeNewFile {
     public static final int indent = 4;
     public static void main(String[] args) throws FileNotFoundException{
         Scanner console = new Scanner(System.in);
         String FileName = GetFile(console);
         Scanner input = new Scanner(new File(FileName));
         Scanner input2 = new Scanner(new File(FileName)); 
+        String newFileName = FileName.substring(0, FileName.lastIndexOf(".")); //newFileName is just the file without the .java
+        PrintStream output = new PrintStream(new File(newFileName + "_Indented.java")); //create a new file, changing the name slightly
         //Duplicate Scanners needed to be made: One to locate Brackets and the other to reprint with normal spacing between words. 
         int Spacing = 0;
+        String tempword = "";
 
-        for(int i = 1; i <= 5; i++){
-            System.out.println();
-        }
+        output.println("/*\nThis File is a copy of the original file <" + FileName + ">, however, properly indented through the use of another program. \n*/\n");
+
         while(input.hasNextLine()){
             Scanner line = new Scanner(input.nextLine());
             String line2 = input2.nextLine();
-            if(line2.contains("}")){
+            if(line2.contains("}")){ //check for }, lower spacing
                 Spacing--;
             }
             //Spacing is set, now print
             for(int i = 1; i <= Spacing * indent; i++){
-                System.out.print(" ");
+                output.print(" ");
             }
             if(line.hasNext()){ //Rather than just printing the String, I printed word by word so that if there were two spaces
-                System.out.print(line.next()); //between words, it would shorten those to become one space. 
+                tempword = line.next();                         //had to force each next word into a String variable to check in case that word was the name of the file, 
+                if(tempword.equals(newFileName) == false){      //in which case I needed to rename that word to fit the new file's name. 
+                    output.print(tempword); //between words, it would shorten those to become one space. 
+                }
+                else{
+                    output.print(newFileName + "_Indented"); //This is only in the case that the word is the name of the program file. 
+                }
                 while(line.hasNext()){
-                    System.out.print(" " + line.next());
+                    tempword = line.next();
+                    if(tempword.equals(newFileName) == false){ //same here
+                        output.print(" " + tempword);
+                    }
+                    else{
+                        output.print(" " + newFileName + "_Indented"); //continued
+                    }
                 }
             }
-            System.out.println();
+            output.println();
             if(line2.contains("{")){ //Open Brackets only change the spacing for following lines
                 Spacing++;
             }
         }
     }
-    public static String GetFile(Scanner console) throws FileNotFoundException{
+    public static String GetFile(Scanner console) throws FileNotFoundException{ //This asks for a file name, 
         System.out.print("Input File Name? ");
         String FileName = console.nextLine();
         File myFile = new File(FileName);
-        while(!myFile.canRead()){
+        while(!myFile.canRead()){                                               //checks if the file is readable, 
             System.out.println("File not found, please try again. ");
             System.out.print("Input File Name? ");
             FileName = console.nextLine();
             myFile = new File(FileName);
         }
-        return FileName;
-    }
+        return FileName;                                                        //and returns the file name if so. 
+    }                                                                           //Afterwards, scanners are created under this file. 
 }
