@@ -1,5 +1,5 @@
 public class CardShape {
-    public static final int SIZE = 16;
+    public static final int SIZE = 8;
     public static void main(String[] args){
         Close();
         Top();
