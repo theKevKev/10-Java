@@ -7,6 +7,13 @@ public class Line {
     private int y2;
 
     //Question 9 Methods
+    public Line(){
+        x1 = 0;
+        x2 = 1;
+        y1 = 0;
+        y2 = 1;
+    }
+
     public Line(Point p1, Point p2){
         if(!(p1.equals(p2))){
             x1 = p1.x;
