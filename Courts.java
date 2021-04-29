@@ -1,5 +1,30 @@
+import java.io.*;
+import java.util.*;
+
 public class Courts {
-    public static void main(String[] args){
+    public static void main(String[] args) throws FileNotFoundException{
+        Scanner input = new Scanner(System.in);
+        
+        //Figure out what the user wants to do
+        int request = 0;
+        boolean didcatch = false;
+        do{
+            didcatch = false;
+            System.out.println("Enter 1 to make a new reserevation, enter 2 to view availabilities, or enter 3 to view/edit/delete a reservation.");
+            try {
+                request = input.nextInt();
+            } catch (Exception e) {
+                System.out.println("Unacceptable input. Try again. (" + e + ")");
+                input.next();
+                didcatch = true;
+            }
+            if(!didcatch){
+                if(request < 1 || request > 3){
+                    System.out.println("Unacceptable input. Try again. (Input should be 1, 2, or 3)");
+                }
+            }
+        } while(request != 1 && request != 2 && request != 3);
+
         Appointment app1 = new Appointment();
 
         String Name = "Kevin";
@@ -19,8 +44,9 @@ public class Courts {
         
         Appointment app3 = new Appointment(Name, StartTime, EndTime, BallMachine, Court);
 
-        app1.PrintDetails();
-        app2.PrintDetails();
-        app3.PrintDetails();
+        // app1.PrintDetails();
+        // app2.PrintDetails();
+        // app3.PrintDetails();
+        app2.LockInAppointment();
     }
 }

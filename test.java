@@ -8,9 +8,11 @@ public class test {
         int NumLines = 0;
 
         while(sc.hasNextLine()){
-            NumLines++;
-            sc.nextLine();
+            if(sc.nextLine().length() != 0){
+                NumLines++;
+            }
         }
+        System.out.println(NumLines);
         String[][] Array = new String[NumLines + 1][5];
         sc.close();
         sc = new Scanner(myFile);
@@ -18,13 +20,16 @@ public class test {
         while(sc.hasNextLine()){
             Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
             int axis2 = 0;
+            String word = null;
             while(Line.hasNext()){
-                String word = Line.next();
+                word = Line.next();
                 System.out.println(word + " ");
                 Array[axis1][axis2] = word;
                 axis2++;
             }
-            axis1++;
+            if(word != null){
+                axis1++;
+            }
             System.out.println();
         }
 
