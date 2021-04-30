@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+
 public class Appointment {
     private int StartTime;
     private int EndTime;
@@ -78,14 +79,13 @@ public class Appointment {
             String word = null;
             while(Line.hasNext()){
                 word = Line.next();
-                System.out.println(word + " ");
+                // System.out.println(word + " ");
                 Array[axis1][axis2] = word;
                 axis2++;
             }
             if(word != null){
                 axis1++;
             }
-            System.out.println();
         }
 
         Array[NumLines][0] = "" + Court;
@@ -96,9 +96,6 @@ public class Appointment {
 
         PrintStream printer = new PrintStream("test.txt");
         sc.close();
-        // for(int i = 0; i < Array.length; i++){
-        //     System.out.println(Arrays.toString(Array[i]));
-        // }
         for(int i = 0; i < Array.length; i++){
             for(int j = 0; j < Array[i].length; j++){
                 printer.print(Array[i][j]);
@@ -111,5 +108,70 @@ public class Appointment {
             }
         }
         printer.close();
+    }
+    public static void ViewCourtSheet() throws FileNotFoundException{
+        Appointment[][] CourtSheet = new Appointment[56][16];
+        FillCourtSheet(CourtSheet);
+        CourtSheet[9][6] = new Appointment();
+        int size = 9;
+        System.out.println("Court Sheet: Tennis Center");
+        System.out.print("\t  ");
+        for(int courts = 1; courts <= CourtSheet[0].length; courts++){
+            System.out.printf("Court %-2d   ", courts);
+        }
+        System.out.println();
+        for(int k = 1; k <= CourtSheet.length / 4; k++){
+            for(int d = 1; d <= 4; d++){
+                System.out.print("{");
+                if((k + 7) / 10 == 0){
+                    System.out.print("0");
+                }
+                System.out.print(k + 7 + ":");
+                if(d == 1){
+                    System.out.print("0");
+                }
+                System.out.print(15 * d - 15 + "}\t");
+                for(int j = 1; j <= CourtSheet[k].length; j++){
+                    System.out.print("[");
+                    if(CourtSheet[4 * (k - 1) + d - 1][j - 1] == null){
+                        for(int i = 1; i <= size; i++){
+                            System.out.print(" ");
+                        }
+                    }
+                    else{
+                        String format = " %-" + (size - 2) + "." + (size - 2) + "s ";
+                        System.out.printf(format, CourtSheet[4 * (k - 1) + d - 1][j - 1].Name);
+                    }
+                    System.out.print("]");
+                }
+                System.out.println();
+            }
+            System.out.print("--------");
+            for(int e = 1; e <= CourtSheet[k].length; e++){
+                System.out.print("+");
+                for(int f = 1; f <= size; f++){
+                    System.out.print("-");
+                }
+                System.out.print("+");
+            }
+            System.out.println();
+        }
+    }
+    public static void FillCourtSheet(Appointment[][] CourtSheet) throws FileNotFoundException{
+        Scanner sc = new Scanner(new File("test.txt"));
+        String name;
+        int StartTime, EndTime, Court;
+        boolean BallMachine;
+        while(sc.hasNextLine()){
+            Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
+            Court = Line.nextInt();
+            name = Line.next();
+            StartTime = Line.nextInt();
+            EndTime = Line.nextInt();
+            BallMachine = Line.nextBoolean();
+            for(int count = 1; count <= EndTime - StartTime; count++){
+                // CourtSheet[count][Court - 1] = new Appointment(name, StartTime, EndTime, BallMachine, Court);
+            }
+        }
     }
 }

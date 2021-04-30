@@ -1,4 +1,3 @@
 7:Tom Sentinel:1400:1530:false
 3:Kevin Han:800:945:true
 3:Stellar Comic:945:1115:true
-1:Kevin:800:930:false

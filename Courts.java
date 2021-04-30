@@ -23,9 +23,54 @@ public class Courts {
                     System.out.println("Unacceptable input. Try again. (Input should be 1, 2, or 3)");
                 }
             }
-        } while(request != 1 && request != 2 && request != 3);
+        } while(request < 1 || request > 3);
 
-        Appointment app1 = new Appointment();
+        if(request == 1){
+            NewReservation();
+        }
+        else if(request == 2){
+            Appointment.ViewCourtSheet();
+        }
+        else if(request == 3){
+            //recieve reservation name and decide which reservation they want. 
+            //Ask if they want to delete or edit
+            do{
+                didcatch = false;
+                System.out.println("Enter 1 to edit this reservation or enter 2 to delete this reservation.");
+                try {
+                    request = input.nextInt();
+                } catch (Exception e) {
+                    System.out.println("Unacceptable input. Try again. (" + e + ")");
+                    input.next();
+                    didcatch = true;
+                }
+                if(!didcatch){
+                    if(request < 1 || request > 2){
+                        System.out.println("Unacceptable input. Try again. (Input should be 1 or 2)");
+                    }
+                }
+            } while(request < 1 || request > 2);
+            if(request == 1){
+                //editreservation menu
+            }
+            else if(request == 2){
+                //delete reservation confirmation
+            }
+        }
+
+        // Appointment app1 = new Appointment();
+
+        //Option 1: Make a new reservation
+        //do{
+            //show courtsheet
+            //give inputs
+            //check for availability
+        //while(available)
+        //if available:
+        //confirmation text + court they are on
+        //place onto file
+
+        // Appointment.ViewCourtSheet();
 
         String Name = "Kevin";
         //Open 8:00 am - 10:00 pm
@@ -46,7 +91,12 @@ public class Courts {
 
         // app1.PrintDetails();
         // app2.PrintDetails();
-        // app3.PrintDetails();
+        app3.PrintDetails();
         app2.LockInAppointment();
+
+        input.close();
+    }
+    public static void NewReservation(){
+        
     }
 }
