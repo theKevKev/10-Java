@@ -91,8 +91,8 @@ public class Courts {
 
         // app1.PrintDetails();
         // app2.PrintDetails();
-        app3.PrintDetails();
-        app2.LockInAppointment();
+        // app3.PrintDetails();
+        // app2.LockInAppointment();
 
         input.close();
     }

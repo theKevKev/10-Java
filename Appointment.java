@@ -10,6 +10,8 @@ public class Appointment {
     private String Name;
     private int Court;
 
+    public static final int CourtSheetSize = 9;   // Adjusts the view size of the courtsheet (in case monitor is too small or something)
+
     public Appointment(){
         Name = "Guest";
     }
@@ -112,12 +114,22 @@ public class Appointment {
     public static void ViewCourtSheet() throws FileNotFoundException{
         Appointment[][] CourtSheet = new Appointment[56][16];
         FillCourtSheet(CourtSheet);
-        CourtSheet[9][6] = new Appointment();
-        int size = 9;
         System.out.println("Court Sheet: Tennis Center");
-        System.out.print("\t  ");
+        System.out.print("\t");
         for(int courts = 1; courts <= CourtSheet[0].length; courts++){
-            System.out.printf("Court %-2d   ", courts);
+            System.out.print("|");
+            //the below for-loop is really just an if statement, but formatting like this avoids an error of "comparing identical expressions"
+            for(int If = 1; If <= CourtSheetSize % 2; If++){        // if(CourtSheetSize % 2 == 1){
+                System.out.print(" ");                              //     System.out.print(" ");
+            }   // To the right is the identical if statement       // }     
+            for(int i = 1; i <= (CourtSheetSize - 8) / 2; i++){
+                System.out.print(" ");
+            }
+            System.out.printf("Court %-2d", courts);
+            for(int i = 1; i <= (CourtSheetSize - 8) / 2; i++){
+                System.out.print(" ");
+            }
+            System.out.print("|");
         }
         System.out.println();
         for(int k = 1; k <= CourtSheet.length / 4; k++){
@@ -134,12 +146,12 @@ public class Appointment {
                 for(int j = 1; j <= CourtSheet[k].length; j++){
                     System.out.print("[");
                     if(CourtSheet[4 * (k - 1) + d - 1][j - 1] == null){
-                        for(int i = 1; i <= size; i++){
+                        for(int i = 1; i <= CourtSheetSize; i++){
                             System.out.print(" ");
                         }
                     }
                     else{
-                        String format = " %-" + (size - 2) + "." + (size - 2) + "s ";
+                        String format = " %-" + (CourtSheetSize - 2) + "." + (CourtSheetSize - 2) + "s ";
                         System.out.printf(format, CourtSheet[4 * (k - 1) + d - 1][j - 1].Name);
                     }
                     System.out.print("]");
@@ -149,7 +161,7 @@ public class Appointment {
             System.out.print("--------");
             for(int e = 1; e <= CourtSheet[k].length; e++){
                 System.out.print("+");
-                for(int f = 1; f <= size; f++){
+                for(int f = 1; f <= CourtSheetSize; f++){
                     System.out.print("-");
                 }
                 System.out.print("+");
@@ -169,9 +181,13 @@ public class Appointment {
             StartTime = Line.nextInt();
             EndTime = Line.nextInt();
             BallMachine = Line.nextBoolean();
-            for(int count = 1; count <= EndTime - StartTime; count++){
-                // CourtSheet[count][Court - 1] = new Appointment(name, StartTime, EndTime, BallMachine, Court);
+            // 4 * difference in hours - difference in minutes / 15 gives the number of 15 minute blocks of the appointment's length
+            for(int count = 1; count <= 4 * (EndTime / 100 - StartTime / 100) + (EndTime % 100 - StartTime % 100) / 15; count++){
+                //Starting Time on Array:
+                //800 = [0], 815 = [1], 830 = [2], 845 = [3], 900 = [4], 915 = [5]: 4 * (hundreds - 8) + startTime%100 / 15 
+                CourtSheet[(4 * (StartTime / 100 - 8) + StartTime % 100 / 15) + count - 1][Court - 1] = new Appointment(name, StartTime, EndTime, BallMachine, Court);
             }
+            
         }
     }
 }
