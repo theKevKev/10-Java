@@ -62,7 +62,7 @@ public class Appointment {
     public void LockInAppointment() throws FileNotFoundException{
         //Check for court/machine availablility
         //If possible, update data log with appointment
-        File myFile = new File("/Users/home/OneDrive - Greenhill School/10-Java/test.txt");
+        File myFile = new File("/Users/home/OneDrive - Greenhill School/10-Java/AppointmentData.txt");
         Scanner sc = new Scanner(myFile);
         int NumLines = 0;
 
@@ -96,7 +96,7 @@ public class Appointment {
         Array[NumLines][3] = "" + EndTime;
         Array[NumLines][4] = "" + BallMachine;
 
-        PrintStream printer = new PrintStream("test.txt");
+        PrintStream printer = new PrintStream("AppointmentData.txt");
         sc.close();
         for(int i = 0; i < Array.length; i++){
             for(int j = 0; j < Array[i].length; j++){
@@ -170,7 +170,7 @@ public class Appointment {
         }
     }
     public static void FillCourtSheet(Appointment[][] CourtSheet) throws FileNotFoundException{
-        Scanner sc = new Scanner(new File("test.txt"));
+        Scanner sc = new Scanner(new File("AppointmentData.txt"));
         String name;
         int StartTime, EndTime, Court;
         boolean BallMachine;
