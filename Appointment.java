@@ -115,6 +115,7 @@ public class Appointment {
         Appointment[][] CourtSheet = new Appointment[56][16];
         FillCourtSheet(CourtSheet);
         System.out.println("Court Sheet: Tennis Center");
+        System.out.println();
         System.out.print("\t");
         for(int courts = 1; courts <= CourtSheet[0].length; courts++){
             System.out.print("|");
@@ -130,6 +131,15 @@ public class Appointment {
                 System.out.print(" ");
             }
             System.out.print("|");
+        }
+        System.out.println();
+        System.out.print("--------");
+        for(int r = 1; r <= CourtSheet[0].length; r++){
+            System.out.print("+");
+            for(int z = 1; z <= CourtSheetSize; z++){
+                System.out.print("-");
+            }
+            System.out.print("+");
         }
         System.out.println();
         for(int k = 1; k <= CourtSheet.length / 4; k++){
