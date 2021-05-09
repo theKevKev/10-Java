@@ -152,7 +152,7 @@ public class Courts {
             while(didcatch);
 
             // recieve court choice
-            Court = 1;
+            Court = 0;
             do{
             didcatch = false;
             System.out.println("Which court would you like to reserve? (\u001B[3m1 - 16\u001B[0m)");

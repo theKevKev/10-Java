@@ -298,6 +298,24 @@ public class Appointment {
             }
             System.out.println();
         }
+        System.out.print("\t");
+        for(int courts = 1; courts <= CourtSheet[0].length; courts++){
+            System.out.print("|");
+            //the below for-loop is really just an if statement, but formatting like this avoids an error of "comparing identical expressions"
+            for(int If = 1; If <= CourtSheetSize % 2; If++){        // if(CourtSheetSize % 2 == 1){
+                System.out.print(" ");                              //     System.out.print(" ");
+            }   // To the right is the identical if statement       // }     
+            for(int i = 1; i <= (CourtSheetSize - 8) / 2; i++){
+                System.out.print(" ");
+            }
+            System.out.printf("Court %-2d", courts);
+            for(int i = 1; i <= (CourtSheetSize - 8) / 2; i++){
+                System.out.print(" ");
+            }
+            System.out.print("|");
+        }
+        System.out.println();
+        System.out.println();
     }
     public static void FillCourtSheet(Appointment[][] CourtSheet) throws FileNotFoundException{
         Scanner sc = new Scanner(new File("FinalProject/AppointmentData.txt"));

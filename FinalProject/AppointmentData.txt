@@ -24,3 +24,8 @@
 13:Air Heads:1700:1800:true
 13:Jay Gatsby:1800:1900:true
 11:Camelbak Water Bottle:800:930:false
+9:Scott Fitzgerald:1730:1900:false
+4:Pencil Sharpener:1530:1700:false
+1:Cheez It:1815:1945:false
+5:Lamp Desk:1900:2030:false
+14:Fishy Flopper:2030:2200:false
