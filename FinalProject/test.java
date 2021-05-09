@@ -1,9 +1,10 @@
+package FinalProject;
 import java.io.*;
 import java.util.*;
 
 public class test {
     public static void main(String[] args) throws FileNotFoundException{
-        File myFile = new File("/Users/home/OneDrive - Greenhill School/10-Java/AppointmentData.txt");
+        File myFile = new File("FinalProject/AppointmentData.txt");
         Scanner sc = new Scanner(myFile);
         int NumLines = 0;
 
@@ -39,7 +40,7 @@ public class test {
         Array[NumLines][3] = "1500";
         Array[NumLines][4] = "false";
 
-        PrintStream printer = new PrintStream("AppointmentData.txt");
+        PrintStream printer = new PrintStream("FinalProject/AppointmentData.txt");
         sc.close();
         for(int i = 0; i < Array.length; i++){
             System.out.println(Arrays.toString(Array[i]));
