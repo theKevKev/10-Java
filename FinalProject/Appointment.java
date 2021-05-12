@@ -95,6 +95,11 @@ public class Appointment {
     }
 
     //Mutator Methods  
+    //Not applicable as changing individual terms at a time could cause interferences with the court sheet 
+    //appointments cannot be changed without 
+
+    //toString Method:
+    //This is the PrintDetails() Method
 
     //Useful Methods
     public void PrintDetails(){

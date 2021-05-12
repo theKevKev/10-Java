@@ -1,15 +1,45 @@
 public class Student {
-    private int grade1;
-    private int grade2;
+    private String name;
+    private double history;
+    private double science;
+    private double english;
+    private double math;
+
+    public Student(){
+        name = "whatever you want";
+    }
+    public Student(String name, double history, double science, double english, double math){
+        this.name = name;
+        this.history = history;
+        this.science = science;
+        this.math = math;
+        //,..
+    }
     
-    public Student(int grade1, int grade2){
-        this.grade1 = grade1;
-        this.grade2 = grade2;
+    //assesor methods
+    public String getName(){
+        return name;
     }
-    public double getGrade1(){
-        return grade1;
+    public double getMath(){
+        return math;
     }
-    public double getGrade2(){
-        return grade2;
+//...
+
+    //mutator methods: if you want to change a variable
+    public void setMath(double math){
+        this.math = math;
+    }
+    //...
+
+    //useful methods
+    public double getAverage(){
+        return (math + history+ science+english)/4;
+    }
+    public void returnStats(){
+        System.out.println("this kid wiht name" + name + "is very cool, he has this grade");
+    }
+    public void CreateDocumentReport(){
+        //files
+        //create a file with a report 
     }
 }
