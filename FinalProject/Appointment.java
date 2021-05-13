@@ -115,6 +115,17 @@ public class Appointment {
         }
         System.out.print("\u001B[0m");
     }
+    public void PrintOptions(){
+        System.out.println("\t" + Name + " - Court " + Court);
+        System.out.print("\t");
+        Convert(StartTime);
+        System.out.print(" - ");
+        Convert(EndTime);
+        System.out.println();
+        if(BallMachine){
+            System.out.println("\t(\u001B[3mBall Machine included\u001B[0m)");
+        }
+    }
     private static void Convert(int Time){
         if(Time < 1300){
             System.out.print(Time / 100);
@@ -124,6 +135,9 @@ public class Appointment {
         }
         System.out.print(":");
         System.out.print(Time % 100);
+        if(Time % 100 == 0){
+            System.out.print("0");
+        }
         if(Time < 1200){
             System.out.print(" am");
         }

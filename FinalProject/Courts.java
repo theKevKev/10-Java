@@ -34,16 +34,20 @@ public class Courts {
                 Appointment.ViewCourtSheet();
             }
             else if(request == 3){
-                int FileLine = SearchReservation();
+                int FileLine = SearchReservation(); // figures out which appointment the user would like to look at and gets its file line number. 
+                System.out.println(FileLine);
                 //Ask if they want to delete or edit
+                Scanner user = new Scanner(System.in);
+                request = 0;
                 do{
                     didcatch = false;
                     System.out.println("Enter 1 to edit this reservation or enter 2 to delete this reservation.");
                     try {
-                        request = input.nextInt();
+                        request = user.nextInt();
+                        System.out.println(request);
                     } catch (Exception e) {
                         System.out.println("Unacceptable input. Try again. (" + e + ")");
-                        input.next();
+                        user.next();
                         didcatch = true;
                     }
                     if(!didcatch){
@@ -181,21 +185,21 @@ public class Courts {
             // recieve court choice
             Court = 0;
             do{
-            didcatch = false;
-            System.out.println("Which court would you like to reserve? (\u001B[3m1 - 16\u001B[0m)");
-            try {
-                Court = input.nextInt();
-            } catch (Exception e) {
-                System.out.println("Unacceptable input. Try again. (" + e + ")");
-                input.next();
-                didcatch = true;
-            }
-            if(!didcatch){
-                if(Court < 1 || Court > 16){
-                    System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be between 1 and 16\u001B[0m)");
+                didcatch = false;
+                System.out.println("Which court would you like to reserve? (\u001B[3m1 - 16\u001B[0m)");
+                try {
+                    Court = input.nextInt();
+                } catch (Exception e) {
+                    System.out.println("Unacceptable input. Try again. (" + e + ")");
+                    input.next();
+                    didcatch = true;
                 }
-            }
-        } while(Court < 1 || Court > 16);
+                if(!didcatch){
+                    if(Court < 1 || Court > 16){
+                        System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be between 1 and 16\u001B[0m)");
+                    }
+                }
+            } while(Court < 1 || Court > 16);
         
             app = new Appointment(Name, StartTime, EndTime, BallMachine, Court);
             success = app.CheckAvailability();
@@ -218,36 +222,93 @@ public class Courts {
         int ArraySize = 0; //This will count how many appointments are under that name. 
         int FileLine = 1;
         String MemoryFileLine = "";
+
+        //Determine Array Size
         while(sc.hasNextLine()){
             Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
             Line.next();
             name = Line.next();
             Line.next();
-            Line.next();
-            Line.next();
-            if(name.toLowerCase().contains(FindName.toLowerCase())){
+            Line.next(); //just trashing these values as we can't use them yet
+            Line.next(); 
+            if(name.toLowerCase().contains(FindName.toLowerCase())){ // if any term on the data file contains the input, we add one to the array size
                 ArraySize++;
-                MemoryFileLine += FileLine + ",";
-            }
+                MemoryFileLine += FileLine + ","; // For efficiency: Rather than looking through every line again to check if the name contains the input, we
+            }                                     // can use this String to contain all the lines on the data file that contain said input. 
+            FileLine++;
         }
-        Appointment[] Choices = new Appointment[ArraySize];
-        input = new Scanner(new File("FinalProject/AppointmentData.txt"));
+        MemoryFileLine = MemoryFileLine.substring(0, MemoryFileLine.length() - 1); //we just want to cut off the last comma
+        Appointment[] Choices = new Appointment[ArraySize];                        //setting up the array to contain all the possible choices
+        int[] ChoiceIndex = new int[ArraySize];                                    //after the user chooses an appointment from the Choices array, it will return the line that that appoitnment was on. 
+
+        //Step 2: Knowing the number of appointments there are under the input name, we can locate each one and put it into an array
+        sc = new Scanner(new File("FinalProject/AppointmentData.txt")); //reset scanner
         int StartTime, EndTime, Court;
         boolean BallMachine;
-        while(sc.hasNextLine()){
-            Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
-            Court = Line.nextInt();
-            name = Line.next();
-            StartTime = Line.nextInt();
-            EndTime = Line.nextInt();
-            BallMachine = Line.nextBoolean();
-            // 4 * difference in hours - difference in minutes / 15 gives the number of 15 minute blocks of the appointment's length
-            
+        FileLine = 1; 
+        Scanner LineNum = new Scanner(MemoryFileLine).useDelimiter(",");
+        Boolean foundOne = true; //determines if a match was found 
+        int temp = 0; // just to store the next item from the string. 
+        int spot = 0; // the index of the array that we are on
+        boolean NoMoreTerms = false; //this happens if there are no more appointments we need to search for
+
+        //Fill in index/reference 
+        while(sc.hasNextLine() && !NoMoreTerms){
+            if(foundOne){ // This part sets the line number that we need to find
+                if(LineNum.hasNextInt()){
+                    temp = LineNum.nextInt();
+                    foundOne = false;
+                }
+                else{ // basically if there are no more terms to search for the while loop will end
+                    NoMoreTerms = true;
+                }
+            }
+            if(FileLine == temp){   //if a line is equal to temp, we know that this line contains a reservation under the input name. 
+                Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
+                Court = Line.nextInt();
+                name = Line.next();
+                StartTime = Line.nextInt();
+                EndTime = Line.nextInt();
+                BallMachine = Line.nextBoolean();
+                Choices[spot] = new Appointment(name, StartTime, EndTime, BallMachine, Court); // fill in the array
+                ChoiceIndex[spot] = FileLine;
+                spot++;
+                foundOne = true;
+            }
+            else{
+                sc.nextLine();
+            }
+            FileLine++;
         }
+        sc.close();
 
-        FileLine = 2;
+        //Step 3: Give user all options under the input name and ask for which specific appointment they want to edit
+        int request = 0;
+        boolean didcatch;
+        do{
+            didcatch = false;
+            System.out.println("Which of these appointments do you want to edit/delete? (\u001B[3mType the corresponding integer\u001B[0m)");
+            for(int i = 0; i < Choices.length; i++){
+                System.out.printf("\u001B[35m%4d: \u001B[0m\n", (i + 1));
+                Choices[i].PrintOptions();
+            }
+            System.out.println();
+            try {
+                request = input.nextInt();
+            } catch (Exception e) {
+                System.out.println("Unacceptable input. Try again. (" + e + ")");
+                input.next();
+                didcatch = true;
+            }
+            if(!didcatch){
+                if(request < 1 || request > ArraySize){
+                    System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be between 1 and " + ArraySize + "\u001B[0m)");
+                }
+            }
+        } while(request < 1 || request > ArraySize);
+
         input.close();
-
-        return FileLine;
+        LineNum.close();
+        return ChoiceIndex[request - 1];
     }
 }

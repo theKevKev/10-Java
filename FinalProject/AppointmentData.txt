@@ -1,4 +1,4 @@
-3:Kevin Han               ooh! You've found a secret! Didn't think anyone would try setting the view size so large!:815:945:false
+3:Kevin Han:815:945:false
 3:Stellar Comic:945:1115:false
 9:Timothy Flouder:830:1030:false
 5:Lemongrass Sr.:800:930:false
