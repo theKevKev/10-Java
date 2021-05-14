@@ -15,9 +15,10 @@ public class Courts {
                 System.out.println("Enter 1 to make a new reserevation, enter 2 to view availabilities, or enter 3 to view/edit/delete a reservation.");
                 try {
                     request = input.nextInt();
+                    input.skip("\\R");
                 } catch (Exception e) {
                     System.out.println("Unacceptable input. Try again. (" + e + ")");
-                    input.next();
+                    input.nextLine();
                     didcatch = true;
                 }
                 if(!didcatch){
@@ -28,47 +29,24 @@ public class Courts {
             } while(request < 1 || request > 3);
 
             if(request == 1){
-                NewReservation();
+                NewReservation(input);
             }
             else if(request == 2){
                 Appointment.ViewCourtSheet();
             }
             else if(request == 3){
-                int FileLine = SearchReservation(); // figures out which appointment the user would like to look at and gets its file line number. 
-                System.out.println(FileLine);
+                int FileLine = SearchReservation(input); // figures out which appointment the user would like to look at and gets its file line number. 
+                
                 //Ask if they want to delete or edit
-                Scanner user = new Scanner(System.in);
-                request = 0;
-                do{
-                    didcatch = false;
-                    System.out.println("Enter 1 to edit this reservation or enter 2 to delete this reservation.");
-                    try {
-                        request = user.nextInt();
-                        System.out.println(request);
-                    } catch (Exception e) {
-                        System.out.println("Unacceptable input. Try again. (" + e + ")");
-                        user.next();
-                        didcatch = true;
-                    }
-                    if(!didcatch){
-                        if(request < 1 || request > 2){
-                            System.out.println("Unacceptable input. Try again. (Input should be 1 or 2)");
-                        }
-                    }
-                } while(request < 1 || request > 2);
-                if(request == 1){
-                    //editreservation menu
-                }
-                else if(request == 2){
-                    //delete reservation confirmation
-                }
+                Method1(input);
+                System.out.println(FileLine);
             }
             //Checks if user still wants to make more reservations/continue the program. 
             do{
                 String recieve;
                 didcatch = false; 
                 System.out.println("Would you like to continue using this reservation system? (Yes/No)");
-                recieve = input.next();
+                recieve = input.nextLine();
                 if((recieve.contains("y") || recieve.contains("Y")) && (recieve.contains("n") || recieve.contains("N"))){
                     System.out.println("Invalid response, please indicate either yes or no. ");
                     didcatch = true;
@@ -91,7 +69,7 @@ public class Courts {
         System.out.println("Thank you for using this booking system! ");
         input.close();
     }
-    public static void NewReservation() throws FileNotFoundException{
+    public static void NewReservation(Scanner input) throws FileNotFoundException{
         //Option 1: Make a new reservation
             //show courtsheet
             //ask user for inputs
@@ -100,7 +78,6 @@ public class Courts {
         //once placed:
         //confirmation text + court they are on
         //place onto file
-        Scanner input = new Scanner(System.in);
         Appointment app;
         boolean success = true;
         String Name = "";
@@ -127,9 +104,10 @@ public class Courts {
                 System.out.print("What time would you like your appointment to \u001B[31mstart\u001B[0m at? We are open from 8:00 to 22:00. \nPlease type your time as a 4-digit number (ex. 930 for 9:30 am or 1745 for 5:45 pm): ");
                 try {
                     StartTime = input.nextInt();
+                    input.nextLine();
                 } catch (Exception e) {
                     System.out.println("Unacceptable input. Try again. (" + e + ")");
-                    input.next();
+                    input.nextLine();
                     didcatch = true;
                 }
                 if(!didcatch){
@@ -146,9 +124,10 @@ public class Courts {
                 System.out.print("What time would you like your appointment to \u001B[31mend\u001B[0m at? We are open from 8:00 to 22:00. \nPlease type your time as a 4-digit number (ex. 930 for 9:30 am or 1745 for 5:45 pm): ");
                 try {
                     EndTime = input.nextInt();
+                    input.nextLine();
                 } catch (Exception e) {
                     System.out.println("Unacceptable input. Try again. (" + e + ")");
-                    input.next();
+                    input.nextLine();
                     didcatch = true;
                 }
                 if(!didcatch){
@@ -165,6 +144,7 @@ public class Courts {
                 didcatch = false; //in this case didcatch indicated whether an error was caught
                 System.out.println("Do you wish to use the ball machine? (Yes/No)");
                 recieve = input.next();
+                input.nextLine();
                 if((recieve.contains("y") || recieve.contains("Y")) && (recieve.contains("n") || recieve.contains("N"))){
                     System.out.println("Invalid response, please indicate either yes or no. ");
                     didcatch = true;
@@ -189,9 +169,10 @@ public class Courts {
                 System.out.println("Which court would you like to reserve? (\u001B[3m1 - 16\u001B[0m)");
                 try {
                     Court = input.nextInt();
+                    input.nextLine();
                 } catch (Exception e) {
                     System.out.println("Unacceptable input. Try again. (" + e + ")");
-                    input.next();
+                    input.nextLine();
                     didcatch = true;
                 }
                 if(!didcatch){
@@ -208,10 +189,9 @@ public class Courts {
         while(!success);
         System.out.println("Success! ");
         app.PrintDetails();
-        input.close();
+
     }
-    public static int SearchReservation() throws FileNotFoundException{
-        Scanner input = new Scanner(System.in);
+    public static int SearchReservation(Scanner input) throws FileNotFoundException{
         Scanner sc = new Scanner(new File("FinalProject/AppointmentData.txt"));
 
         System.out.print("Please enter the name under the appointment you are looking for: ");
@@ -295,9 +275,10 @@ public class Courts {
             System.out.println();
             try {
                 request = input.nextInt();
+                input.skip("\\R");
             } catch (Exception e) {
                 System.out.println("Unacceptable input. Try again. (" + e + ")");
-                input.next();
+                input.nextLine();
                 didcatch = true;
             }
             if(!didcatch){
@@ -307,8 +288,37 @@ public class Courts {
             }
         } while(request < 1 || request > ArraySize);
 
-        input.close();
         LineNum.close();
         return ChoiceIndex[request - 1];
+
+    }
+    public static void Method1(Scanner input){
+        int request = 0;
+        boolean didcatch = false;
+
+        do{
+            didcatch = false;
+            System.out.println("Enter 1 to edit the appointment or enter 2 to delete the appointment. ");
+            try {
+                request = input.nextInt();
+                input.skip("\\R");
+            } catch (Exception e) {
+                System.out.println("Unacceptable input. Try again. (" + e + ")");
+                didcatch = true;
+                input.nextLine();
+            }
+            if(!didcatch){
+                if(request < 1 || request > 2){
+                    System.out.println("Unacceptable input. Try again. (Input should be 1, 2, or 3)");
+                }
+            }
+        } while(request < 1 || request > 2);
+
+        if(request == 1){
+            //editreservation menu
+        }
+        else if(request == 2){
+            //delete reservation confirmation
+        }
     }
 }

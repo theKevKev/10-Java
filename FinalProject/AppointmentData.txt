@@ -29,3 +29,5 @@
 5:Lamp Desk:1900:2030:false
 14:Fishy Flopper:2030:2200:false
 7:Hank Thompson:1700:1830:false
+1:Hersheys Ice:2030:2200:false
+2:Bug Fixing:2000:2130:false
