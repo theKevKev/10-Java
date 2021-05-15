@@ -96,7 +96,7 @@ public class Courts {
                                 // Nothing happens, request just can't be zero at this point
                             }
                             else if(recieve.contains("n") || recieve.contains("N")){
-                                request = 0;
+                                request = 0; // setting request to 0 goes back to the edit/delete question
                             }
                             else{
                                 System.out.println("Invalid response, please indicate either yes or no. ");
@@ -270,32 +270,46 @@ public class Courts {
         // This method allows the user to input a String and gives options for appointments that contain the input
         Scanner sc = new Scanner(new File("FinalProject/AppointmentData.txt"));
 
-        // Collect name to search for
-        System.out.print("Please enter the name under the appointment you are looking for: ");
-        String FindName = input.nextLine();
-        
-        //Step 1: Locate any appointment that contains the input and figure out how many there are. 
+        String FindName;
+        int ArraySize;
+        int FileLine;
+        String MemoryFileLine;
         String name;
-        //ArraySize will count how many appointments are under that name
-        int ArraySize = 0; 
-        int FileLine = 1; 
-        // MemoryFileLine will store all the line numbers in the data file that are under the input name (mainly for efficiency purposes)
-        String MemoryFileLine = ""; 
+        do{
+            // Collect name to search for
+            System.out.print("Please enter the name under the appointment you are looking for: ");
+            FindName = input.nextLine();
+            
+            //Step 1: Locate any appointment that contains the input and figure out how many there are. 
+            //ArraySize will count how many appointments are under that name
+            ArraySize = 0; 
+            FileLine = 1; 
+            // MemoryFileLine will store all the line numbers in the data file that are under the input name (mainly for efficiency purposes)
+            MemoryFileLine = ""; 
 
-        //Determine Array Size
-        while(sc.hasNextLine()){
-            Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
-            Line.next();
-            name = Line.next();
-            Line.next();
-            Line.next(); //just trashing these values as we can't use them yet
-            Line.next(); 
-            if(name.toLowerCase().contains(FindName.toLowerCase())){ // if any term on the data file contains the input, we add one to the array size
-                ArraySize++;
-                MemoryFileLine += FileLine + ","; // For efficiency: Rather than looking through every line again to check if the name contains the input, we
-            }                                     // can use this String to contain all the lines on the data file that contain said input. 
-            FileLine++;
+            //Determine Array Size
+            while(sc.hasNextLine()){
+                Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
+                Line.next();
+                name = Line.next();
+                Line.next();
+                Line.next(); //just trashing these values as we can't use them yet
+                Line.next(); 
+                if(name.toLowerCase().contains(FindName.toLowerCase())){ // if any term on the data file contains the input, we add one to the array size
+                    ArraySize++;
+                    MemoryFileLine += FileLine + ","; // For efficiency: Rather than looking through every line again to check if the name contains the input, we
+                }                                     // can use this String to contain all the lines on the data file that contain said input. 
+                FileLine++;
+            }
+
+            if(ArraySize == 0){
+                // No matches under that name
+                System.out.println("No appointments were found under the name <" + FindName + ">. Please try again. ");
+                sc = new Scanner(new File("FinalProject/AppointmentData.txt"));
+            }
         }
+        while(ArraySize == 0);
+
         MemoryFileLine = MemoryFileLine.substring(0, MemoryFileLine.length() - 1); //we just want to cut off the last comma
         Appointment[] Choices = new Appointment[ArraySize];                        //setting up the array to contain all the possible choices
         int[] ChoiceIndex = new int[ArraySize];                                    //after the user chooses an appointment from the Choices array, it will return the line that that appoitnment was on. 
@@ -330,8 +344,10 @@ public class Courts {
                 StartTime = Line.nextInt();
                 EndTime = Line.nextInt();
                 BallMachine = Line.nextBoolean();
+                
+                // This kind of works like a dictionary, with Choices and ChoiceIndex being used together
                 Choices[spot] = new Appointment(name, StartTime, EndTime, BallMachine, Court); // fill in the array
-                ChoiceIndex[spot] = FileLine;
+                ChoiceIndex[spot] = FileLine; // fill in the corresponding file line
                 spot++;
                 foundOne = true;
             }
@@ -348,11 +364,13 @@ public class Courts {
         do{
             didcatch = false;
             System.out.println("Which of these appointments do you want to edit/delete? (\u001B[3mType the corresponding integer\u001B[0m)");
+            // Prints each option under the input name and assigns it a corresponding integer
             for(int i = 0; i < Choices.length; i++){
                 System.out.printf("\u001B[35m%4d: \u001B[0m\n", (i + 1));
                 Choices[i].PrintOptions();
             }
             System.out.println();
+            // User should attempt to type the corresponding integer of the appointment they want to edit/delete
             try {
                 request = input.nextInt();
                 input.skip("\\R");
@@ -371,6 +389,5 @@ public class Courts {
         LineNum.close();
         // return the file line number of the appointment they choose
         return ChoiceIndex[request - 1];
-
     }
 }
