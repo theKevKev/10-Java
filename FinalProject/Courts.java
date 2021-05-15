@@ -36,7 +36,7 @@ public class Courts {
                 //but if no exception was caught there is a chance the input could be out of bounds
                 if(!didcatch){ 
                     if(request < 1 || request > 3){
-                        System.out.println("Unacceptable input. Try again. (Input should be 1, 2, or 3)");
+                        System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be 1, 2, or 3\u001B[0m)");
                     }
                 }
             } while(request < 1 || request > 3);
@@ -53,7 +53,6 @@ public class Courts {
                 do{
                     //Ask if they want to delete or edit
                     request = 0;
-
                     do{
                         didcatch = false;
                         System.out.println("Enter 1 to edit the appointment or enter 2 to delete the appointment. ");
@@ -67,7 +66,7 @@ public class Courts {
                         }
                         if(!didcatch){
                             if(request < 1 || request > 2){
-                                System.out.println("Unacceptable input. Try again. (Input should be 1, 2, or 3)");
+                                System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be 1 or 2\u001B[0m)");
                             }
                         }
                     } while(request < 1 || request > 2);
@@ -75,7 +74,225 @@ public class Courts {
                     if(request == 1){
                         // Edit Appointment
 
-                        //editreservation menu
+                        Appointment.ViewCourtSheet();
+                        // Step 1: Save Current Appointment (in case we want to revert all changes)
+                        Scanner sc = new Scanner(new File("FinalProject/AppointmentData.txt"));
+                        for(int skipline = 1; skipline <= FileLine - 1; skipline++){
+                            sc.nextLine();
+                        }
+                        Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
+                        int Court = Line.nextInt();
+                        String Name = Line.next();
+                        int StartTime = Line.nextInt();
+                        int EndTime = Line.nextInt();
+                        boolean BallMachine = Line.nextBoolean();
+                        Appointment OldAppointment = new Appointment(Name, StartTime, EndTime, BallMachine, Court);
+
+                        // Step 2: Delete Current Appointment
+                        Appointment.DeleteAppointment(FileLine);
+
+                        // Step 3: Make a copy of the current appointment and allow edits
+                        Appointment NewAppointment = new Appointment(Name, StartTime, EndTime, BallMachine, Court);
+                        
+                        // To determine if any edits have been made yet
+                        boolean FirstEdit = true;
+                        // To determine when the user is done making changes
+                        boolean DoneEditing = false;
+
+                        do{
+                            FirstEdit = true;
+                            do{
+                                // recieve parameter to change
+                                if(FirstEdit){
+                                    do{
+                                        request = 0;
+                                        didcatch = false;
+                                        System.out.println("Enter 1 to change name, enter 2 to change time, enter 3 to change ball machine status, or enter 4 to change court. ");
+                                        try {
+                                            request = input.nextInt();
+                                            input.skip("\\R");
+                                        } catch (Exception e) {
+                                            System.out.println("Unacceptable input. Try again. (" + e + ")");
+                                            didcatch = true;
+                                            input.nextLine();
+                                        }
+                                        if(!didcatch){
+                                            if(request < 1 || request > 4){
+                                                System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be 1, 2, 3, or 4\u001B[0m)");
+                                            }
+                                        }
+                                    } while(request < 1 || request > 4);    
+                                }
+                                else{
+                                    do{
+                                        request = 0;
+                                        didcatch = false;
+                                        System.out.println("Enter 1 to change name, enter 2 to change time, enter 3 to change ball machine status, enter 4 to change court, or enter -1 to lock in these changes. ");
+                                        try {
+                                            request = input.nextInt();
+                                            input.skip("\\R");
+                                        } catch (Exception e) {
+                                            System.out.println("Unacceptable input. Try again. (" + e + ")");
+                                            didcatch = true;
+                                            input.nextLine();
+                                        }
+                                        if(!didcatch){
+                                            if((request < 1 || request > 4) && request != -1){
+                                                System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be 1, 2, 3, or 4\u001B[0m)");
+                                            }
+                                        }
+                                    } while((request < 1 || request > 4) && request != -1);
+                                }
+                                
+                                // Change the parameter
+                                if(request == 1){
+                                    System.out.print("What name should the reservation be under? ");
+                                    NewAppointment.setName(input.nextLine());
+                                }
+                                else if(request == 2){
+                                    // Print Courtsheet for convinience
+                                    Appointment.ViewCourtSheet();
+                                    // Recieve new Start Time
+                                    StartTime = 0;
+                                    do{
+                                        didcatch = false;
+                                        System.out.print("What time would you like your appointment to \u001B[31mstart\u001B[0m at? We are open from 8:00 to 22:00. \nPlease type your time as a 4-digit number (ex. 930 for 9:30 am or 1745 for 5:45 pm): ");
+                                        try {
+                                            StartTime = input.nextInt();
+                                            input.nextLine();
+                                        } catch (Exception e) {
+                                            System.out.println("Unacceptable input. Try again. (" + e + ")");
+                                            input.nextLine();
+                                            didcatch = true;
+                                        }
+                                        if(!didcatch){
+                                            // Time slots should be in 15-min intervals and between 8:00 am and 10:00pm (not including 10pm)
+                                            if(StartTime < 800 || StartTime >= 2200 || !(StartTime % 100 == 0 || StartTime % 100 == 15 || StartTime % 100 == 30 || StartTime % 100 == 45)){
+                                                System.out.println("Invalid Time, please try again. (\u001B[3mTimes are placed at 15-minute slots\u001B[0m)");
+                                            }
+                                        }
+                                    } while(StartTime < 800 || StartTime >= 2200 || !(StartTime % 100 == 0 || StartTime % 100 == 15 || StartTime % 100 == 30 || StartTime % 100 == 45));
+
+                                    // Recieve new End Time
+                                    EndTime = 0;
+                                    do{
+                                        didcatch = false;
+                                        System.out.print("What time would you like your appointment to \u001B[31mend\u001B[0m at? We are open from 8:00 to 22:00. \nPlease type your time as a 4-digit number (ex. 930 for 9:30 am or 1745 for 5:45 pm): ");
+                                        try {
+                                            EndTime = input.nextInt();
+                                            input.nextLine();
+                                        } catch (Exception e) {
+                                            System.out.println("Unacceptable input. Try again. (" + e + ")");
+                                            input.nextLine();
+                                            didcatch = true;
+                                        }
+                                        if(!didcatch){
+                                            // Time slots should be in 15-min intervals and between 8:00 am and 10:00pm (not including 8am)
+                                            if(EndTime <= 800 || EndTime > 2200 || !(EndTime % 100 == 0 || EndTime % 100 == 15 || EndTime % 100 == 30 || EndTime % 100 == 45) || EndTime <= StartTime){
+                                                System.out.println("Invalid Time, please try again. (\u001B[3mTimes are placed at 15-minute slots\u001B[0m)");
+                                            }
+                                        }
+                                    } while(EndTime <= 800 || EndTime > 2200 || !(EndTime % 100 == 0 || EndTime % 100 == 15 || EndTime % 100 == 30 || EndTime % 100 == 45) || EndTime <= StartTime); 
+
+                                    // Set new times
+                                    NewAppointment.setTime(StartTime, EndTime);
+                                }
+                                else if(request == 3){
+                                    // Collect new Ball Machine status
+                                    String recieve;
+                                    do{
+                                        didcatch = false; //in this case didcatch indicated whether an error was caught
+                                        System.out.println("Do you wish to use the ball machine? (Yes/No)");
+                                        recieve = input.next();
+                                        input.nextLine();
+                                        if((recieve.contains("y") || recieve.contains("Y")) && (recieve.contains("n") || recieve.contains("N"))){
+                                            System.out.println("Invalid response, please indicate either yes or no. ");
+                                            didcatch = true;
+                                        }
+                                        else if(recieve.contains("y") || recieve.contains("Y")){
+                                            BallMachine = true;
+                                        }
+                                        else if(recieve.contains("n") || recieve.contains("N")){
+                                            BallMachine = false;
+                                        }
+                                        else{
+                                            System.out.println("Invalid response, please indicate either yes or no. ");
+                                            didcatch = true;
+                                        }
+                                    }
+                                    while(didcatch);
+
+                                    NewAppointment.setBallMachineStatus(BallMachine);
+                                }
+                                else if(request == 4){
+                                    Court = 0;
+                                    do{
+                                        didcatch = false;
+                                        System.out.println("Which court would you like to reserve? (\u001B[3m1 - 16\u001B[0m)");
+                                        try {
+                                            Court = input.nextInt();
+                                            input.nextLine();
+                                        } catch (Exception e) {
+                                            System.out.println("Unacceptable input. Try again. (" + e + ")");
+                                            input.nextLine();
+                                            didcatch = true;
+                                        }
+                                        if(!didcatch){
+                                            if(Court < 1 || Court > 16){
+                                                System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be between 1 and 16\u001B[0m)");
+                                            }
+                                        }
+                                    } while(Court < 1 || Court > 16);
+
+                                    NewAppointment.setCourt(Court);
+                                }
+                                else if(request == -1){
+                                    DoneEditing = true;
+                                }
+                                
+                                FirstEdit = false;
+                            }
+                            while(DoneEditing == false);
+
+                            // Step 4: Check for availability
+                            boolean success = NewAppointment.CheckAvailability();
+                                // If successful, save new Appointment in data file
+                            if(success){
+                                NewAppointment.LockInAppointment();
+                            }
+                                // If unsuccessful, ask whether to continue changing or to revert all changes
+                            else{
+                                System.out.println("Unfortunately, the edits could not be made as the requested appointment is not available. ");
+                                request = 0;
+                                do{
+                                    didcatch = false;
+                                    System.out.println("Would you like to continue editing (\u001B[3menter 1\u001B[0m) or revert all changes and keep the orignial appointment (\u001B[3menter 2\u001B[0m)? ");
+                                    try {
+                                        request = input.nextInt();
+                                        input.skip("\\R");
+                                    } catch (Exception e) {
+                                        System.out.println("Unacceptable input. Try again. (" + e + ")");
+                                        didcatch = true;
+                                        input.nextLine();
+                                    }
+                                    if(!didcatch){
+                                        if(request < 1 || request > 2){
+                                            System.out.println("Unacceptable input. Try again. (\u001B[3mInput should be 1 or 2\u001B[0m)");
+                                        }
+                                    }
+                                } while(request < 1 || request > 2);
+
+                                if(request == 1){ // Continue Editing
+                                    DoneEditing = false;
+                                }
+                                else{ // request == 2 : Revert all changes
+                                    // Move out of the edit/delete system
+                                    // If revert all changes, reapply the saved current appointment back into the file
+                                    OldAppointment.LockInAppointment();
+                                }
+                            }
+                        }
+                        while(DoneEditing == false);
                     }
                     else if(request == 2){
                         // Delete Appointment
@@ -106,7 +323,6 @@ public class Courts {
                         while(didcatch);
 
                         if(request == 2){ // Deletion Confirmation 
-                            // Delete Appointment
                             Appointment.DeleteAppointment(FileLine);
                             System.out.println("Success! Your appointment has been deleted. ");
                         }
@@ -125,7 +341,8 @@ public class Courts {
                     didcatch = true;
                 }
                 else if(recieve.contains("y") || recieve.contains("Y")){
-                    // Nothing happens, request just can't be zero at this point
+                    // Request cannot be -1
+                    request = 0;
                 }
                 else if(recieve.contains("n") || recieve.contains("N")){
                     request = -1;

@@ -106,8 +106,22 @@ public class Appointment {
     }
 
     //Mutator Methods  
-    //Not applicable as changing individual terms at a time could cause interferences with the court sheet 
-    //appointments cannot be changed without 
+    public void setCourt(int newCourt){
+        Court = newCourt;
+    }
+    public void setName(String newName){
+        Name = newName;
+    }
+    public void setTime(int newStartTime, int newEndTime){
+        // Main class should check whether the times are possible
+        StartTime = newStartTime;
+        EndTime = newEndTime;
+        Duration = 60 * (EndTime / 100 - StartTime / 100) + (EndTime % 100 - StartTime % 100);
+        DurationHours = (double)Duration / 60;
+    }
+    public void setBallMachineStatus(boolean BallMachineStatus){
+        BallMachine = BallMachineStatus;
+    }
 
     //toString Method:
     //This is represented by the PrintReceipt() or PrintOptions() Method

@@ -15,18 +15,21 @@
 1:Friendly One:930:1100:false
 13:BM User:1100:1200:true
 13:Kind Soldier:1230:1330:true
-1:Kevin:800:930:false
 13:Newman Userman:2000:2100:true
-2:Kenneth:1300:1430:false
-6:Myself:1800:1930:false
 13:Air Heads:1700:1800:true
 13:Jay Gatsby:1800:1900:true
 11:Camelbak Water Bottle:800:930:false
 9:Scott Fitzgerald:1730:1900:false
-4:Pencil Sharpener:1530:1700:false
 1:Cheez It:1815:1945:false
 5:Lamp Desk:1900:2030:false
 14:Fishy Flopper:2030:2200:false
 7:Hank Thompson:1700:1830:false
 1:Hersheys Ice:2030:2200:false
 2:Bug Fixing:2000:2130:false
+15:Moosepad Incisor:1515:1645:false
+1:Kevin Han:800:930:false
+12:Percussion Gang:1630:1800:false
+4:Pencil Sharpener:1530:1700:false
+8:Kenneth Lavender:1915:2045:false
+13:Coach (Tennis):1430:1630:false
+14:Headphones Eater:1500:1600:true
