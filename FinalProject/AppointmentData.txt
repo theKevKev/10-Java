@@ -17,7 +17,6 @@
 13:Kind Soldier:1230:1330:true
 1:Kevin:800:930:false
 13:Newman Userman:2000:2100:true
-1:Kevin:800:930:false
 2:Kenneth:1300:1430:false
 6:Myself:1800:1930:false
 13:Air Heads:1700:1800:true

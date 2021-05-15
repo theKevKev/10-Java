@@ -421,4 +421,48 @@ public class Appointment {
             }
         }
     }
+    public static void DeleteAppointment(int FileLine) throws FileNotFoundException {
+        // This method deletes the given line from the data file 
+        
+        // Step 1: Count how many non-blank lines are in the data file
+        File myFile = new File("/Users/home/OneDrive - Greenhill School/10-Java/FinalProject/AppointmentData.txt");
+        Scanner sc = new Scanner(myFile);
+        int NumLines = 0;
+
+        while(sc.hasNextLine()){
+            if(sc.nextLine().length() != 0){
+                NumLines++;
+            }
+        }
+
+        // Step 2: Create an array with 1 less line and store lines in the array
+        String[] Array = new String[NumLines - 1];
+        sc.close();
+        sc = new Scanner(myFile);
+        //readingfileline represents which line of the file the scanner is reading
+        int readingfileline = 1;
+        int arrayindex = 0;
+        String Line;
+        while(sc.hasNextLine()){
+            Line = sc.nextLine();
+            // if the link is not blank nor the line we are trying to delete: 
+            if(Line.length() != 0 && readingfileline != FileLine){
+                Array[arrayindex] = Line; // store the line
+                arrayindex++; // move to next index of array
+            }
+            readingfileline++; // prepare to read the next line
+        }
+        
+        // Step 3: PrintStream the array back into the file
+        PrintStream printer = new PrintStream("FinalProject/AppointmentData.txt");
+        sc.close();
+        for(int i = 0; i < Array.length; i++){
+            printer.print(Array[i]);
+            if(i != Array.length - 1){
+                printer.println();
+            }
+        }
+        printer.close();
+        sc.close();
+    }
 }

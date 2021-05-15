@@ -93,7 +93,7 @@ public class Courts {
                                 didcatch = true;
                             }
                             else if(recieve.contains("y") || recieve.contains("Y")){
-                                // Nothing happens, request just can't be zero at this point
+                                // Nothing happens, request can stay at 2
                             }
                             else if(recieve.contains("n") || recieve.contains("N")){
                                 request = 0; // setting request to 0 goes back to the edit/delete question
@@ -105,10 +105,12 @@ public class Courts {
                         }
                         while(didcatch);
 
-                        //Confirm Deletion
-                        //Delete Appointment
+                        if(request == 2){ // Deletion Confirmation 
+                            // Delete Appointment
+                            Appointment.DeleteAppointment(FileLine);
+                            System.out.println("Success! Your appointment has been deleted. ");
+                        }
                     }
-                    System.out.println(FileLine);
                 }
                 while(request == 0);
             }
