@@ -1,3 +1,12 @@
+/*
+Kevin Han - Java Final Project
+Sophomore Year: 2021
+Main Class 
+
+This program is the user interface where the user may choose between creating, editing, and deleting appointments under a booking system for a tennis center. 
+This tennis center contains 16 courts, and is open from 8:00 am to 10:00 pm. 
+There is only one ball machine in the facility, so there can only be one ball machine booking at a given time. 
+*/
 package FinalProject;
 import java.io.*;
 import java.util.*;
@@ -5,29 +14,34 @@ import java.util.*;
 public class Courts {
     public static void main(String[] args) throws FileNotFoundException{
         Scanner input = new Scanner(System.in);
+        
+        //User interface: 
         int request;
         do{
             //Figure out what the user wants to do
             request = 0;
-            boolean didcatch = false;
+            boolean didcatch = false; // represents whether an exception was caught
             do{
                 didcatch = false;
                 System.out.println("Enter 1 to make a new reserevation, enter 2 to view availabilities, or enter 3 to view/edit/delete a reservation.");
                 try {
                     request = input.nextInt();
-                    input.skip("\\R");
+                    input.skip("\\R"); //I found out that nextInt does not consume the enter character
                 } catch (Exception e) {
                     System.out.println("Unacceptable input. Try again. (" + e + ")");
                     input.nextLine();
                     didcatch = true;
                 }
-                if(!didcatch){
+                //if an exception is caught there is no need to print this, 
+                //but if no exception was caught there is a chance the input could be out of bounds
+                if(!didcatch){ 
                     if(request < 1 || request > 3){
                         System.out.println("Unacceptable input. Try again. (Input should be 1, 2, or 3)");
                     }
                 }
             } while(request < 1 || request > 3);
 
+            //Feed into user's choices
             if(request == 1){
                 NewReservation(input);
             }
@@ -39,7 +53,6 @@ public class Courts {
                 do{
                     //Ask if they want to delete or edit
                     request = 0;
-                    didcatch = false;
 
                     do{
                         didcatch = false;
@@ -60,10 +73,16 @@ public class Courts {
                     } while(request < 1 || request > 2);
 
                     if(request == 1){
+                        // Edit Appointment
+
                         //editreservation menu
                     }
                     else if(request == 2){
+                        // Delete Appointment
+
+                        // Give confirmation message
                         System.out.println("\u001B[31mWarning! This action cannot be undone! ");
+                        // recieve confirmation
                         do{
                             String recieve;
                             didcatch = false; 
@@ -74,7 +93,7 @@ public class Courts {
                                 didcatch = true;
                             }
                             else if(recieve.contains("y") || recieve.contains("Y")){
-                                //Nothing happens, request just can't be zero at this point
+                                // Nothing happens, request just can't be zero at this point
                             }
                             else if(recieve.contains("n") || recieve.contains("N")){
                                 request = 0;
@@ -104,7 +123,7 @@ public class Courts {
                     didcatch = true;
                 }
                 else if(recieve.contains("y") || recieve.contains("Y")){
-                    //Nothing happens, request just can't be zero at this point
+                    // Nothing happens, request just can't be zero at this point
                 }
                 else if(recieve.contains("n") || recieve.contains("N")){
                     request = -1;
@@ -115,9 +134,9 @@ public class Courts {
                 }
             }
             while(didcatch);
-
         }
         while(request != -1);
+        // End of program
         System.out.println("Thank you for using this booking system! ");
         input.close();
     }
@@ -126,7 +145,7 @@ public class Courts {
             //show courtsheet
             //ask user for inputs
             //attempt to place reservation
-        //if reservation attempt failes, ask user what they want to change
+        //if reservation attempt failes, let user change variables and retry
         //once placed:
         //confirmation text + court they are on
         //place onto file
@@ -138,6 +157,8 @@ public class Courts {
         int Court = 0;
         int EndTime = 0;
         Appointment.ViewCourtSheet();
+
+        // Recieve all inputs and check for availability of court
         do{
             if(!success){
                 System.out.println("Let's redo this appointment! ");
@@ -163,6 +184,7 @@ public class Courts {
                     didcatch = true;
                 }
                 if(!didcatch){
+                    // Time slots should be in 15-min intervals and between 8:00 am and 10:00pm (not including 10pm)
                     if(StartTime < 800 || StartTime >= 2200 || !(StartTime % 100 == 0 || StartTime % 100 == 15 || StartTime % 100 == 30 || StartTime % 100 == 45)){
                         System.out.println("Invalid Time, please try again. (\u001B[3mTimes are placed at 15-minute slots\u001B[0m)");
                     }
@@ -183,11 +205,13 @@ public class Courts {
                     didcatch = true;
                 }
                 if(!didcatch){
+                    // Time slots should be in 15-min intervals and between 8:00 am and 10:00pm (not including 8am)
                     if(EndTime <= 800 || EndTime > 2200 || !(EndTime % 100 == 0 || EndTime % 100 == 15 || EndTime % 100 == 30 || EndTime % 100 == 45) || EndTime <= StartTime){
                         System.out.println("Invalid Time, please try again. (\u001B[3mTimes are placed at 15-minute slots\u001B[0m)");
                     }
                 }
-            } while(EndTime <= 800 || EndTime > 2200 || !(EndTime % 100 == 0 || EndTime % 100 == 15 || EndTime % 100 == 30 || EndTime % 100 == 45) || EndTime <= StartTime);
+            } while(EndTime <= 800 || EndTime > 2200 || !(EndTime % 100 == 0 || EndTime % 100 == 15 || EndTime % 100 == 30 || EndTime % 100 == 45) || EndTime <= StartTime); 
+            // Also checks that the ending time is after the start time above
 
             // recieve ball machine request
             BallMachine = false;
@@ -240,20 +264,23 @@ public class Courts {
         }
         while(!success);
         System.out.println("Success! ");
-        app.PrintDetails();
-
+        app.PrintReceipt();
     }
     public static int SearchReservation(Scanner input) throws FileNotFoundException{
+        // This method allows the user to input a String and gives options for appointments that contain the input
         Scanner sc = new Scanner(new File("FinalProject/AppointmentData.txt"));
 
+        // Collect name to search for
         System.out.print("Please enter the name under the appointment you are looking for: ");
         String FindName = input.nextLine();
         
         //Step 1: Locate any appointment that contains the input and figure out how many there are. 
         String name;
-        int ArraySize = 0; //This will count how many appointments are under that name. 
-        int FileLine = 1;
-        String MemoryFileLine = "";
+        //ArraySize will count how many appointments are under that name
+        int ArraySize = 0; 
+        int FileLine = 1; 
+        // MemoryFileLine will store all the line numbers in the data file that are under the input name (mainly for efficiency purposes)
+        String MemoryFileLine = ""; 
 
         //Determine Array Size
         while(sc.hasNextLine()){
@@ -278,7 +305,7 @@ public class Courts {
         int StartTime, EndTime, Court;
         boolean BallMachine;
         FileLine = 1; 
-        Scanner LineNum = new Scanner(MemoryFileLine).useDelimiter(",");
+        Scanner LineNum = new Scanner(MemoryFileLine).useDelimiter(","); // Not sure why it says LineNum isn't closed, it is closed on line 370
         Boolean foundOne = true; //determines if a match was found 
         int temp = 0; // just to store the next item from the string. 
         int spot = 0; // the index of the array that we are on
@@ -296,6 +323,7 @@ public class Courts {
                 }
             }
             if(FileLine == temp){   //if a line is equal to temp, we know that this line contains a reservation under the input name. 
+                // Collect/Create appointment
                 Scanner Line = new Scanner(sc.nextLine()).useDelimiter(":");
                 Court = Line.nextInt();
                 name = Line.next();
@@ -341,6 +369,7 @@ public class Courts {
         } while(request < 1 || request > ArraySize);
         
         LineNum.close();
+        // return the file line number of the appointment they choose
         return ChoiceIndex[request - 1];
 
     }

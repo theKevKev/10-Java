@@ -18,6 +18,7 @@ public class test3 {
                 System.out.println("Please type your grade");
                 String year = input.nextLine();
                 //mathgrade = coolectgrade math
+                System.out.println(year);
                 Student Student1 = new Student(name, grade1, grade2, 3, 4);
                 do{    
                     System.out.println("Enter 1 to get average, enter 2 to generate report, enter 3 to look at strenghts/weaknesses or enter -1 to stop looking at this student");
@@ -41,5 +42,6 @@ public class test3 {
         }
         while(userinput != -1);
         System.out.println("End of program. BYEBYE");
+        input.close();
     }
 }

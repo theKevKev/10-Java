@@ -66,5 +66,6 @@ public class Student {
         
 
         //create a file with a report 
+        output.close();
     }
 }
