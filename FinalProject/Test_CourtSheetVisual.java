@@ -1,10 +1,10 @@
 package FinalProject;
 
-public class test2 {
+public class Test_CourtSheetVisual {
     public static void main(String[] args){
         CourtSheet1();
         //version 2
-        // CourtSheet2();
+        CourtSheet2();
     }
     public static void CourtSheet1(){
         System.out.print("\t  ");
