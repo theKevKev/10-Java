@@ -126,7 +126,7 @@ public class Appointment {
     //toString Method:
     //This is represented by the PrintReceipt() or PrintOptions() Method
 
-    //Useful Methods
+    //Printing Methods
     public void PrintReceipt(){
         // This method prints a summary of the appointment after creating a new appointment. 
         System.out.print("\u001B[36mCourt " + Court + " is booked for <" + Name + "> from ");
@@ -173,6 +173,8 @@ public class Appointment {
             System.out.print(" pm");
         }
     }
+    
+    //File Methods
     public boolean CheckAvailability() throws FileNotFoundException{
         // This method scans through the data file and the new appointment to see if there is space for the new appointment. 
         
@@ -236,7 +238,7 @@ public class Appointment {
             // PrintStream all array values back to data file
         //Otherwise state that appointment slot is not available
         if(CheckAvailability()){
-            File myFile = new File("/Users/home/OneDrive - Greenhill School/10-Java/FinalProject/AppointmentData.txt");
+            File myFile = new File("FinalProject/AppointmentData.txt");
             Scanner sc = new Scanner(myFile);
             int NumLines = 0;
             // Figure out how many non-blank lines are in the data file
@@ -439,7 +441,7 @@ public class Appointment {
         // This method deletes the given line from the data file 
         
         // Step 1: Count how many non-blank lines are in the data file
-        File myFile = new File("/Users/home/OneDrive - Greenhill School/10-Java/FinalProject/AppointmentData.txt");
+        File myFile = new File("FinalProject/AppointmentData.txt");
         Scanner sc = new Scanner(myFile);
         int NumLines = 0;
 
